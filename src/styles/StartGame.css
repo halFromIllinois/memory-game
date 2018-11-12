@@ -1,0 +1,39 @@
+.StartGame{
+  width: 100vw;
+  height: 100vh;
+  /* background-color: rgba(92,92,92,.86); */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+.StartGame--fade-out{
+  opacity: 0;
+}
+
+
+.StartGame__button{
+  font-size: 20px;
+  padding: 20px;
+  margin: 0 auto 200px;
+  /* transform: translateY(-200%); */
+  border: none;
+  background-color: #262626;
+  border-radius: 3px;
+  box-shadow: 0 7px 0 0 #323131;
+  transition: all 200ms ease-in-out;
+}
+.StartGame__button:hover{
+  box-shadow: 0 4px 0 0 #323131;
+  transform: translateY(3px);
+}
+.StartGame__button:active{
+  box-shadow: 0 1px 0 0 #323131;
+  transform: translateY(6px);
+  outline: none;
+}
+.StartGame__button:focus{
+  outline: none;
+}
