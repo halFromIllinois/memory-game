@@ -1,0 +1,12 @@
+
+.Box{
+  /* background-color: #9d9d9d; */
+  margin: 10px;
+  border-radius: 8px;
+  border: inset 4px #383838;
+  box-shadow: 2px 2px 4px 1px rgba(210,0,82,.47);
+}
+
+.Box:hover{
+  cursor: pointer;
+}

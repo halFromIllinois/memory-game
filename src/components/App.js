@@ -9,7 +9,8 @@ class App extends Component {
 
   static defaultProps = {
     colors: ["#ff6f00", "#47e6e8", "#6d2ca1", "#e99cac",
-            "#dfb746", "#85db42", "#1e1c95", "#5b1616"]
+            "#dfb746", "#85db42", "#1e1c95", "#5b1616"],
+    appTitle: "Remember Me"
   }
 
   constructor(props){
@@ -79,7 +80,8 @@ class App extends Component {
             <StartGame startGame={this.assignColors}/> :
             <Game
             colors={this.state.assignedColors}
-            newGame={this.assignColors}/>
+            newGame={this.assignColors}
+            appTitle={this.props.appTitle}/>
         }
       </div>
     );

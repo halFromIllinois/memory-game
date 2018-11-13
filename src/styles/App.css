@@ -2,4 +2,12 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(92,92,92,.86);
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
 }

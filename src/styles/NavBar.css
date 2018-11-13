@@ -1,0 +1,43 @@
+.NavBar{
+  position: fixed;
+  width: 100vw;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #1b3c91;
+  box-shadow: 0 0 7px 3px #d20052;
+  border-bottom: solid 2px #262626;
+}
+
+.NavBar__title{
+  margin: 10px 40px;
+  color: #d4d5df;
+  text-shadow: 1px 1px 1px #25101b,
+              1px 2px 4px #ffa100;
+  font-size: 50px;
+}
+
+.NavBar__new-game-button{
+  max-height: 30px;
+  margin: 25px 120px 0 0;
+  font-size: 20px;
+  /* padding: 20px; */
+  border: none;
+  background-color: #969696;
+  border-radius: 3px;
+  box-shadow: 0 7px 0 0 #5c5c5c;
+  transition: all 200ms ease-in-out;
+}
+.NavBar__new-game-button:hover{
+  box-shadow: 0 4px 0 0 #323131;
+  transform: translateY(3px);
+}
+.NavBar__new-game-button:active{
+  box-shadow: 0 1px 0 0 #323131;
+  transform: translateY(6px);
+  outline: none;
+}
+.NavBar__new-game-button:focus{
+  outline: none;
+}
