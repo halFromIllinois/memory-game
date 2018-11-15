@@ -2,13 +2,12 @@ import React from 'react';
 import '../styles/Box.css'
 import PropTypes from 'prop-types';
 
-const Box = ({color, index, addVisId, visIds}) => {
+const Box = ({color, index, addVisId}) => {
 
   Box.propTypes = {
     index: PropTypes.number,
     color: PropTypes.string,
     addVisId: PropTypes.func,
-    visIds: PropTypes.array
   }
 
   const id = `box${index}`;
