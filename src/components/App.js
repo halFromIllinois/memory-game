@@ -24,17 +24,6 @@ class App extends Component {
     this.shuffle = this.shuffle.bind(this);
   }
 
-  // getRandomColor(){
-  //   let randIndex = Math.floor(Math.random() * (this.props.colors.length));
-  //   let color = this.props.colors[randIndex];
-  //   return color;
-  // }
-  //
-  // getColorCount(color, arr){
-  //   const newArr = arr.filter((val) => val === color);
-  //   return newArr.length;
-  // }
-
   shuffle(arr){
     for(let i = 0; i < arr.length; i++){
       let r = Math.floor(Math.random() * i);
