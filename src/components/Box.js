@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/Box.css'
 import PropTypes from 'prop-types';
 
-const Box = ({color, index, addVisId}) => {
+const Box = ({color="", index, addVisId}) => {
 
   Box.propTypes = {
     index: PropTypes.number,
@@ -11,10 +11,10 @@ const Box = ({color, index, addVisId}) => {
   }
 
   const id = `box${index}`;
-  const style = {backgroundColor: color}
+  const visStyle = {backgroundColor: color, border: "outset 4px #383838"};
 
   return(
-    <div id={id} className="Box" style={style} onClick={() => addVisId(index)}></div>
+    <div id={id} className="Box" style={color !== "" ? visStyle : null} onClick={() => addVisId(index)}></div>
   )
 }
 

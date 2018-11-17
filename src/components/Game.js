@@ -11,8 +11,6 @@ const Game = ({colors, newGame, addVisibleId, showWinModal,
   //Todo-cosmetics: Game fade in, short randomized colors animation on new
   //  game using App.shuffle mehod and setInterval
 
-  //Todo-cosmetics: if showWinModal is true set game opacity to 0.4
-
   Game.propTypes = {
     colors: PropTypes.array,
     visibleIds: PropTypes.array,
@@ -46,12 +44,24 @@ const Game = ({colors, newGame, addVisibleId, showWinModal,
         visIds={visibleIds} />
   ));
 
+  const winVisStyle = "win-modal-visible";
+
   return(
     <div className="Game">
-      <WinModal newGame={newGame}/>
+
+      {showWinModal === true ?
+        <WinModal newGame={newGame}/>:
+          null
+      }
       <NavBar newGame={newGame}
-              appTitle={appTitle}/>
-      <div className="Game__container">
+              appTitle={appTitle}
+              winVisStyle={winVisStyle}
+              showWinModal={showWinModal}/>
+      <div
+        className={showWinModal === true ?
+          `Game__container ${winVisStyle}` :
+            "Game__container"}
+      >
         <div className="Game__box-container">
           {boxes}
         </div>

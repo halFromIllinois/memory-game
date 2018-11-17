@@ -82,12 +82,12 @@ class App extends Component {
   }
 
   newGame(){
-    this.setState({visibleIds: [], tempVisibleIds: []});
+    this.setState({visibleIds: [], tempVisibleIds: [], showWinModal: false});
     this.assignColors();
   }
 
   validateWin(){
-    if (this.state.assignedColors.length <= this.state.visibleIds){
+    if (this.state.assignedColors.length <= this.state.visibleIds.length){
       this.setState({showWinModal: true});
     }
   }
@@ -100,7 +100,7 @@ class App extends Component {
     if (this.state.tempVisibleIds.length >= 2) {
       setTimeout(()=> this.setState(
         {tempVisibleIds: [], tempVisibleColors: []},
-        this.validateWin
+        () => this.validateWin()
       ),300)
     }
   }
@@ -117,7 +117,7 @@ class App extends Component {
   }
 
   //update visible ids and clears temp state
-  updateVisIds(id, color){
+  updateVisIds(){
     this.setState(
       {visibleIds: [...this.state.visibleIds, ...this.state.tempVisibleIds]},
       () => this.resetTempVisIds()
@@ -126,7 +126,7 @@ class App extends Component {
 
   // Takes the id assigned to the box from the colors.map in the render method
   // Gets color from colors with id argument
-  // Calls the reset to validate only 2 boes are available
+  // Calls the reset to validate only 2 boxes are available
   // Updates the temp array with the correct callback
   addVisibleId(id){
     let color = this.state.assignedColors[id];
