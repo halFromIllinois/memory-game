@@ -20,15 +20,18 @@
   border: none;
   background-color: #262626;
   border-radius: 3px;
-  box-shadow: 0 7px 0 0 #323131;
+  box-shadow: 0 7px 0 0 #323131,
+              0 -4px 15px 0 #292929;
   transition: all 200ms ease-in-out;
 }
 .StartGame__button:hover{
-  box-shadow: 0 4px 0 0 #212121;
+  box-shadow: 0 4px 0 0 #212121,
+              0 -2px 10px 0 #292929;
   transform: translateY(3px);
 }
 .StartGame__button:active{
-  box-shadow: 0 1px 0 0 #212121;
+  box-shadow: 0 1px 0 0 #212121,
+              0 -1px 4px 0 #292929;
   transform: translateY(6px);
   outline: none;
 }

@@ -20,7 +20,7 @@
               0 0 40px 5px #242424;
   transform: translateY(-50%);
   opacity: 0;
-  animation: 500ms cubic-bezier(.57,.33,.66,1.84) slideFade forwards;
+  animation: 700ms cubic-bezier(.57,.33,.66,1.84) 100ms slideFade forwards;
 }
 
 @keyframes slideFade {
