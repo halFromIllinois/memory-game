@@ -1,116 +1,74 @@
-import React, { Component } from 'react';
+import React from 'react';
 import NavBar from './NavBar';
 import Box from './Box';
+import WinModal from './WinModal';
 import PropTypes from 'prop-types';
 import '../styles/Game.css';
 
-class Game extends Component {
-
-  // Todo: refactor for dificulty. Not dependent on pairs but matchable variables
-  //   set by the user.
-
-  //Todo: Method for clearing all state variables and pass to NavBar for
-    // new game on click
+const Game = ({colors, newGame, addVisibleId, showWinModal,
+            visibleIds, tempVisibleIds, appTitle}) => {
 
   //Todo-cosmetics: Game fade in, short randomized colors animation on new
   //  game using App.shuffle mehod and setInterval
 
-  constructor(props){
-    super(props);
-    this.state = {
-      visibleIds: [], //for matched boxes
-      tempVisibleIds: [], //the index of boxes pending vis verification
-      tempVisibleColors: [] //color counterpart to tempVisIds
-    }
-    this.addVisibleId = this.addVisibleId.bind(this);
-    this.resetTempVisIds = this.resetTempVisIds.bind(this);
-    this.updateTempVisIds = this.updateTempVisIds.bind(this);
-    this.updateVisIds = this.updateVisIds.bind(this);
-  }
-
-  static propTypes = {
+  Game.propTypes = {
     colors: PropTypes.array,
+    visibleIds: PropTypes.array,
+    tempVisibleIds: PropTypes.array,
     newGame: PropTypes.func,
-    appTitle: PropTypes.string
+    addVisibleId: PropTypes.func,
+    appTitle: PropTypes.string,
+    showWinModal: PropTypes.bool
   }
 
-  //validates selection count and clears temp state
-  resetTempVisIds(){
-    if (this.state.tempVisibleIds.length >= 2) {
-      setTimeout(()=> this.setState({tempVisibleIds: [], tempVisibleColors: []}), 300)
-    }
-  }
-
-  //Updates temp state
-  //Takes a call back argument so we can validate if we need to update visIds
-  //  or clear temp state only
-  updateTempVisIds(id, color, callback){
-    this.setState({
-      tempVisibleIds: [...this.state.tempVisibleIds, id],
-      tempVisibleColors: [...this.state.tempVisibleColors, color]
-    },
-    () => callback(id,color));
-  }
-
-  //update visible ids and clears temp state
-  updateVisIds(id, color){
-    this.setState(
-      {visibleIds: [...this.state.visibleIds, ...this.state.tempVisibleIds]},
-      () => this.resetTempVisIds()
-    )
-  }
-
-  // Takes the id assigned to the box from the colors.map in the render method
-  // Gets color from colors with id argument
-  // Calls the reset to validate only 2 boes are available
-  // Updates the temp array with the correct callback
-  addVisibleId(id){
-    let color = this.props.colors[id];
-    this.resetTempVisIds();
-    (this.state.tempVisibleColors.indexOf(color) !== -1) ?
-      this.updateTempVisIds(id, color, this.updateVisIds)
+  const boxes = colors.map((col, i) => (
+    visibleIds.indexOf(i) !== -1 ?
+      <Box
+      key={i}
+      index={i}
+      color={col}
+      addVisId={addVisibleId}
+      visIds={visibleIds}/>
+    : tempVisibleIds.indexOf(i) !== -1 ?
+        <Box
+        key={i}
+        index={i}
+        color={col}
+        addVisId={addVisibleId}
+        visIds={visibleIds}/>
       :
-      this.updateTempVisIds(id, color, this.resetTempVisIds)
-  }
+        <Box
+        key={i}
+        index={i}
+        addVisId={addVisibleId}
+        visIds={visibleIds} />
+  ));
 
-  render() {
-      const boxes = this.props.colors.map((col, i) => (
-        this.state.visibleIds.indexOf(i) !== -1 ?
-          <Box
-          key={i}
-          index={i}
-          color={col}
-          addVisId={this.addVisibleId}
-          visIds={this.state.visibleIds}/>
-        : this.state.tempVisibleIds.indexOf(i) !== -1 ?
-            <Box
-            key={i}
-            index={i}
-            color={col}
-            addVisId={this.addVisibleId}
-            visIds={this.state.visibleIds}/>
-          :
-            <Box
-            key={i}
-            index={i}
-            addVisId={this.addVisibleId}
-            visIds={this.state.visibleIds} />
-      ));
-      return(
-        <div className="Game">
-          <NavBar newGame={this.props.newGame}
-                  appTitle={this.props.appTitle}/>
-          <div className="Game__container">
-            <div className="Game__box-container">
-              {boxes}
-            </div>
-          </div>
+  const winVisStyle = "win-modal-visible";
+
+  return(
+    <div className="Game">
+
+      {showWinModal === true ?
+        <WinModal newGame={newGame}/>:
+          null
+      }
+      <NavBar newGame={newGame}
+              appTitle={appTitle}
+              winVisStyle={winVisStyle}
+              showWinModal={showWinModal}/>
+      <div
+        className={showWinModal === true ?
+          `Game__container ${winVisStyle}` :
+            "Game__container"}
+      >
+        <div className="Game__box-container">
+          {boxes}
         </div>
-      )
-    }
+      </div>
+    </div>
+  )
+
   }
-
-
-
 
 export default Game;

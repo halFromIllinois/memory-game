@@ -5,9 +5,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #1b3c91;
+  background-color: #3b4e5c;
   box-shadow: 0 0 7px 3px #d20052;
   border-bottom: solid 2px #262626;
+  transition: opacity 400ms ease-in-out;
 }
 
 .NavBar__title{
@@ -22,7 +23,6 @@
   max-height: 30px;
   margin: 25px 120px 0 0;
   font-size: 20px;
-  /* padding: 20px; */
   border: none;
   background-color: #969696;
   border-radius: 3px;
@@ -40,4 +40,8 @@
 }
 .NavBar__new-game-button:focus{
   outline: none;
+}
+
+.win-modal-visible{
+  opacity: 0.4
 }

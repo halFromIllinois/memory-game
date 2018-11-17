@@ -5,6 +5,11 @@ import '../styles/App.css';
 
 const BOX_NUM = 16;
 
+// Todo: refactor for dificulty. Not dependent on pairs but matchable variables
+//   set by the user. BOX_NUM will be part of state.
+
+//Todo-cosmetics: responsive design
+
 class App extends Component {
 
   static defaultProps = {
@@ -16,12 +21,22 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      assignedColors: []
+      assignedColors: [],
+      visibleIds: [], //for matched boxes
+      tempVisibleIds: [], //the index of boxes pending vis verification
+      tempVisibleColors: [], //color counterpart to tempVisIds
+      showWinModal: false
     }
 
+    this.addVisibleId = this.addVisibleId.bind(this);
+    this.resetTempVisIds = this.resetTempVisIds.bind(this);
+    this.updateTempVisIds = this.updateTempVisIds.bind(this);
+    this.updateVisIds = this.updateVisIds.bind(this);
     this.assignColors = this.assignColors.bind(this);
     this.getUniqueBoxCount = this.getUniqueBoxCount.bind(this);
     this.shuffle = this.shuffle.bind(this);
+    this.newGame = this.newGame.bind(this);
+    this.validateWin = this.validateWin.bind(this)
   }
 
   shuffle(arr){
@@ -51,6 +66,10 @@ class App extends Component {
     return validateBoxCount/2;
   }
 
+  //Assigns the correct amount of colors to the assigned colors state variable.
+  //This is it's own method (rather than setting all colors in state by default)
+  //in order to make validating and accounting for more boxes in adding a feature
+  //for difficulty later
   assignColors(){
     const uniqueBoxCount = this.getUniqueBoxCount();
     let colorArr = [];
@@ -62,15 +81,75 @@ class App extends Component {
     this.setState({assignedColors: colorArr});
   }
 
+  newGame(){
+    this.setState({visibleIds: [], tempVisibleIds: [], showWinModal: false});
+    this.assignColors();
+  }
+
+  validateWin(){
+    if (this.state.assignedColors.length <= this.state.visibleIds.length){
+      this.setState({showWinModal: true});
+    }
+  }
+
+  //validates selection count and clears temp state
+  //calls validate win only if clearing tempId state - this might be a bad
+  //  since we are relying on no mutation bugs to validate a win, but we
+  //  are also halving the validateWin function calls, Possible refactor needed
+  resetTempVisIds(){
+    if (this.state.tempVisibleIds.length >= 2) {
+      setTimeout(()=> this.setState(
+        {tempVisibleIds: [], tempVisibleColors: []},
+        () => this.validateWin()
+      ),300)
+    }
+  }
+
+  //Updates temp state
+  //Takes a call back argument so we can validate if we need to update visIds
+  //  or clear temp state only
+  updateTempVisIds(id, color, callback){
+    this.setState({
+      tempVisibleIds: [...this.state.tempVisibleIds, id],
+      tempVisibleColors: [...this.state.tempVisibleColors, color]
+    },
+    () => callback(id,color));
+  }
+
+  //update visible ids and clears temp state
+  updateVisIds(){
+    this.setState(
+      {visibleIds: [...this.state.visibleIds, ...this.state.tempVisibleIds]},
+      () => this.resetTempVisIds()
+    )
+  }
+
+  // Takes the id assigned to the box from the colors.map in the render method
+  // Gets color from colors with id argument
+  // Calls the reset to validate only 2 boxes are available
+  // Updates the temp array with the correct callback
+  addVisibleId(id){
+    let color = this.state.assignedColors[id];
+    this.resetTempVisIds();
+    (this.state.tempVisibleColors.indexOf(color) !== -1) ?
+      this.updateTempVisIds(id, color, this.updateVisIds)
+      :
+      this.updateTempVisIds(id, color, this.resetTempVisIds)
+  }
+
   render() {
     return (
       <div className="App">
         { this.state.assignedColors.length===0 ?
-            <StartGame startGame={this.assignColors}/> :
+            <StartGame startGame={this.newGame}/> :
             <Game
             colors={this.state.assignedColors}
-            newGame={this.assignColors}
-            appTitle={this.props.appTitle}/>
+            newGame={this.newGame}
+            appTitle={this.props.appTitle}
+            addVisibleId={this.addVisibleId}
+            tempVisibleIds={this.state.tempVisibleIds}
+            visibleIds={this.state.visibleIds}
+            showWinModal={this.state.showWinModal}/>
         }
       </div>
     );
