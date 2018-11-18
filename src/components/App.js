@@ -129,12 +129,18 @@ class App extends Component {
   // Calls the reset to validate only 2 boxes are available
   // Updates the temp array with the correct callback
   addVisibleId(id){
-    let color = this.state.assignedColors[id];
-    this.resetTempVisIds();
-    (this.state.tempVisibleColors.indexOf(color) !== -1) ?
-      this.updateTempVisIds(id, color, this.updateVisIds)
-      :
-      this.updateTempVisIds(id, color, this.resetTempVisIds)
+    if (this.state.visibleIds.indexOf(id) === -1 &&
+            this.state.tempVisibleIds.indexOf(id) === -1){
+      let color = this.state.assignedColors[id];
+      this.resetTempVisIds();
+      (this.state.tempVisibleColors.indexOf(color) !== -1) ?
+        this.updateTempVisIds(id, color, this.updateVisIds)
+        :
+        this.updateTempVisIds(id, color, this.resetTempVisIds)
+    } else {
+      return 
+    }
+
   }
 
   render() {
